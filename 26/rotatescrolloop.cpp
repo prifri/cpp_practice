@@ -73,7 +73,7 @@ void rotatescroll::rotate(void)
   gotoxy(x_s, y);
 
   if (startup_char_cnt){
-#if 1
+#if 0
     if (vector == true){
       memmove(x_area+1, x_area, startup_char_cnt - 1);
       *x_area = str[str_len - startup_char_cnt];
