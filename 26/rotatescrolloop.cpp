@@ -11,8 +11,9 @@ class rotatescroll{
     char *x_area;
     int x_area_len;
     int x_s, y, speed, vector;
-    int pos;
+    int str_pos;
     int space_cnt;
+    int c_space_cnt;
     int c_speed;
 
     int startup_char_cnt;
@@ -36,11 +37,16 @@ class rotatescroll{
       vector = arg_vector;
 
       c_speed = speed;
-      pos = 0;
+      str_pos = 0;
 
       str_len = strlen(arg_str);
       x_area_len = arg_x_e - x_s + 1; //'\0 + first
       space_cnt = x_area_len - str_len;
+      c_space_cnt = 0;
+      if (vector == true)
+        str_pos = str_len - 1;
+      else
+        str_pos = 0;
       startup_char_cnt = 1;
 
       //str init
@@ -65,106 +71,48 @@ class rotatescroll{
 
 void rotatescroll::rotate(void)
 {
-  if (c_speed++ < speed)
+  if (c_speed-- > 0)
     return;
 
-  c_speed = 0;
+  c_speed = speed;
+
+  if (vector == true){
+    memmove(x_area+1, x_area, x_area_len-1);
+
+    if (str_pos >= 0){
+      *x_area = str[str_pos--];
+    }
+    else if (space_cnt > 0){
+      *x_area = ' ';
+      if (c_space_cnt++ == space_cnt){
+        c_space_cnt = 0;
+        str_pos = str_len - 1;
+      }
+    }
+    else{
+      str_pos = str_len - 1 ;
+      *x_area = str[str_pos--];
+    }
+  }
+  else{
+    memmove(x_area, x_area+1, x_area_len-1);
+    if (str_pos < str_len){
+      *(x_area + x_area_len - 1) = str[str_pos++];
+    }
+    else if (space_cnt > 0){
+      *(x_area + x_area_len - 1) = ' ';
+      if (c_space_cnt++ == space_cnt){
+        c_space_cnt = 0;
+        str_pos = 0;
+      }
+    }
+    else{
+      str_pos = 0;
+      *(x_area + x_area_len - 1) = str[str_pos++];
+    }
+  }
 
   gotoxy(x_s, y);
-
-  if (startup_char_cnt){
-#if 0
-    if (vector == true){
-      memmove(x_area+1, x_area, startup_char_cnt - 1);
-      *x_area = str[str_len - startup_char_cnt];
-    }
-    else{
-      char *end_p = x_area + x_area_len - 1;
-      memmove(end_p - 1 - startup_char_cnt + 1,
-          end_p - startup_char_cnt + 1,
-          startup_char_cnt - 1);
-      *end_p = str[startup_char_cnt - 1];
-    }
-
-    if (startup_char_cnt == str_len ||
-        startup_char_cnt == x_area_len)
-      startup_char_cnt = 0;
-    else
-      startup_char_cnt++;
-#else
-    startup_char_cnt = 0;
-#endif
-  }
-  else {
-    if (space_cnt >= 0){
-      char *p = x_area;
-      /*
-       * pos is x_area position
-       *  +- pos < str_len
-       *  |
-       * [ABCD     ]
-       *       +- pos >= str_len
-       * [ABCD     ]
-       */
-      if (pos < str_len){
-        int len = str_len - pos;
-        memcpy(p, &str[pos], len);
-        p += len;
-        memset(p, ' ', space_cnt);
-        p += space_cnt;
-        memcpy(p, str, x_area_len - len - space_cnt);
-      }
-      else{
-        int len = x_area_len - pos;
-
-        memset(p, ' ', len);
-        p += len;
-        memcpy(p, str, str_len);
-        p += str_len;
-        memset(p, ' ', space_cnt - len);
-      }
-      if (vector == true){
-        if (pos-- == 0)
-          pos = x_area_len-1;
-      }
-      else{
-        if (++pos >= x_area_len)
-          pos = 0;
-      }
-    }
-    else{
-      /*
-       * str : ABC
-       *
-       * pos is string position
-       *  +-pos + x_area_len <= str_len
-       * [AB]
-       *
-       *  +-pos + x_area_len <= str_len
-       * [BC]
-       *
-       *  +-pos + x_area_len > str_len
-       * [CA]
-       */
-      if (pos + x_area_len <= str_len){
-        memcpy(x_area, &str[pos], x_area_len);
-      }
-      else{
-        int len = str_len - pos;
-        memcpy(x_area, &str[pos], len);
-        memcpy(&x_area[len], str, x_area_len - len);
-      }
-
-      if (vector == true){
-        if (pos-- == 0)
-          pos = str_len-1;
-      }
-      else{
-        if (++pos >= str_len)
-          pos = 0;
-      }
-    }
-  }
   cout << x_area;
 }
 int main(void)
@@ -175,6 +123,7 @@ int main(void)
   rotatescroll r4("---------->", 40, 75, 3, 0, true);
   rotatescroll r5("<======::====", 20, 75, 4, 0, false);
   rotatescroll r6("1234567890", 15, 20, 5, 0, false);
+  rotatescroll r7("abcd", 5, 8, 1, 1, true);
   for (clrscr();kbhit();){
     r1.rotate();
     r2.rotate();
@@ -182,6 +131,7 @@ int main(void)
     r4.rotate();
     r5.rotate();
     r6.rotate();
+    r7.rotate();
     delay_ms(20);
   }
 
