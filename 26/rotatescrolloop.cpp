@@ -3,6 +3,7 @@
 #include "../include/comm.h"
 using namespace std;
 
+#define CS_OFF    "\033[?12l"
 class rotatescroll{
   private:
     char *str;
@@ -124,7 +125,8 @@ int main(void)
   rotatescroll r5("<======::====", 20, 75, 4, 0, false);
   rotatescroll r6("1234567890", 15, 20, 5, 0, false);
   rotatescroll r7("abcd", 5, 8, 1, 1, true);
-  for (clrscr();kbhit();){
+  init(0);
+  for (clrscr();!kbhit();){
     r1.rotate();
     r2.rotate();
     r3.rotate();
