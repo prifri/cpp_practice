@@ -18,11 +18,13 @@ elif [ "$EXTEN" == "h" ]; then
 fi
 
 rm ./$1
-clear
+#clear
 
 if [ $# -eq 2 ];then
-	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror  -std=c++$2
+	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror  -std=c++$2 \
+		-lX11 -lXrandr
 else
-	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror
+	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror \
+		-lX11 -lXrandr
 fi
 ./$1
