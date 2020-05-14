@@ -1,5 +1,7 @@
 #!/bin/bash
 # ../build.sh {bin} {std version}
+# sudo apt install libx11-dev libxrandr-dev
+
 FILE=$1
 EXTEN=${FILE##*.}
 

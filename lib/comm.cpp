@@ -90,6 +90,11 @@ void gotoxy(int x, int y)
   printf("%c[%d;%df",0x1B,y,x);
 }
 
+void gotoxy_color(int x, int y, const char *ansi)
+{
+  printf("%s%c[%d;%df", ansi, 0x1B,y,x);
+}
+
 void putch(char ch)
 {
   cout << ch << endl;
@@ -140,4 +145,27 @@ void init(int cursor)
   signal(SIGTERM, sig_deinit);
   signal(SIGINT, sig_deinit);
 
+}
+
+const char *get_color(int idx)
+{
+  switch (idx){
+    case E_ANSI_INIT:
+    case E_ANSI_RED:
+      return ANSI_RED;
+    case E_ANSI_GREEN:
+      return ANSI_GREEN;
+    case E_ANSI_YELLOW:
+      return ANSI_YELLOW;
+    case E_ANSI_BLUE:
+      return ANSI_BLUE;
+    case E_ANSI_MAGENTA:
+      return ANSI_MAGENTA;
+    case E_ANSI_CYAN:
+      return ANSI_CYAN;
+    case E_ANSI_BLACK:
+      return ANSI_BLACK;
+    default:
+      return ANSI_INIT;
+  }
 }

@@ -76,7 +76,7 @@ void Signal :: Move(void)
 
 int main(void)
 {
-#define MAX 4096
+#define MAX 1024
   Signal S[MAX];
 
   init (0);
