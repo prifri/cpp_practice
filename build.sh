@@ -22,11 +22,17 @@ fi
 rm ./$1
 #clear
 
+WOPT="-W -Wall -Werror"
+WNOPT="-Wno-ignored-qualifiers"
+
 if [ $# -eq 2 ];then
-	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror  -std=c++$2 \
+	g++  -g -o $1 $1.cpp ../lib/comm.cpp \
+		$WOPT $WNOPT \
+		-std=c++$2 \
 		-lX11 -lXrandr
 else
-	g++  -g -o $1 $1.cpp ../lib/comm.cpp -W -Werror \
+	g++  -g -o $1 $1.cpp ../lib/comm.cpp \
+		$WOPT $WNOPT \
 		-lX11 -lXrandr
 fi
 ./$1

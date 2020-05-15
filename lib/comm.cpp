@@ -131,7 +131,7 @@ static void deinit(void)
   cursor_ctrl(1);
 }
 
-static void sig_deinit(int signo)
+static void sig_deinit(__attribute__((unused)) int signo)
 {
   exit(0);
 }
