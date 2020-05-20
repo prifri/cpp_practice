@@ -3,12 +3,14 @@
 
 using namespace std;
 
-template <typename T> T cast(int s)
+template <typename T>
+T cast(int s)
 {
   return (T)s;
 }
 
-template <typename T> void func(void)
+template <typename T>
+void func(void)
 {
   T v;
   cin >> v;

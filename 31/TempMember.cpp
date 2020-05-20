@@ -4,13 +4,17 @@
 using namespace std;
 
 class Some{
-private:
+
+ private:
   int mem;
-public:
+ public:
   Some(int m) : mem(m)
   {
+    mem = m;
   }
-  template <typename T> void memfunc(T a)
+
+  template <typename T>
+  void memfunc(T a)
   {
     cout << "template = " << a << ", mem = " << mem << endl;
   }
