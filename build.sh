@@ -43,6 +43,7 @@ else
 	EXTEN="cpp"
 fi
 
+rm ./$NAME > /dev/null 2>&1
 
 WOPT="-W -Wall -Werror"
 WNOPT="-Wno-ignored-qualifiers"
