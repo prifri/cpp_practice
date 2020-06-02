@@ -1,5 +1,5 @@
 #!/bin/bash
-# sudo apt install libx11-dev libxrandr-dev
+# sudo apt install libx11-dev libxrandr-dev libxcursor-dev
 # example : ../build.sh -v 11 NsTest.cpp Utils.cpp
 # example : ../build.sh NsTest.cpp Utils.cpp
 # example : ../build.sh NsTest Utils.cpp
