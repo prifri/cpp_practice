@@ -43,6 +43,7 @@ flags = [
 	'-Wall',
 	'-Werror',
 	'-I ./include',
+	'-std=c++17',
 ]
 
 # Clang automatically sets the '-std=' flag to 'c++14' for MSVC 2015 or later,

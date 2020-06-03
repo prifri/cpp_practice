@@ -30,10 +30,10 @@ int main(void)
   }
 
   int limit = n1 < n2 ? n1 : n2;
-  int max = 0;
+  int gcd_result = 0;
 
   if (n1%limit == 0 && n2%limit == 0){
-    max = limit;
+    gcd_result = limit;
   }
   else{
     int curr_n = limit/2;
@@ -42,17 +42,17 @@ int main(void)
       if (curr_n <= 1)
         break;
       if (n1%curr_n == 0 && n2%curr_n == 0){
-        max = curr_n;
+        gcd_result = curr_n;
         break;
       }
       curr_n--;
     }
   }
 
-  if (max)
-    std::cout << "max : " << max << std::endl;
+  if (gcd_result)
+    std::cout << "gcd_result : " << gcd_result << std::endl;
   else
-    std::cout << "not exist max" << std::endl;
+    std::cout << "not exist gcd_result" << std::endl;
   return 0;
 }
 #else
@@ -71,11 +71,11 @@ int main(void)
     return -1;
   }
 
-  int max = std::gcd(n1, n2);
-  if (max)
-    std::cout << "max : " << max << std::endl;
+  int gcd_result = std::gcd(n1, n2);
+  if (gcd_result > 1)
+    std::cout << "gcd_result : " << gcd_result << std::endl;
   else
-    std::cout << "not exist max" << std::endl;
+    std::cout << "not exist gcd_result" << std::endl;
   return 0;
 }
 #endif
