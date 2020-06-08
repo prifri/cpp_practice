@@ -88,75 +88,79 @@ class InNumber{
       return true;
     return false;
   }
+
+  void Show(__uint128_t n)
+  {
+      if (Is128(n) == true)
+        pr_128(n);
+      else
+        std::cout << (uint64_t)n;
+  }
 }Num;
+
+template <typename T>
+bool IsPrim(T n)
+{
+  T div_base_n = 3;
+  while (1){
+    T div_n = n/div_base_n;
+    if ((div_n&1) == 0)
+      div_n--;
+
+    if(div_n < div_base_n){
+      return true;
+    }
+    else if (n%div_n == 0){
+      break;
+    }
+
+    div_base_n += 2;
+  }
+  return false;
+}
 
 int main(void)
 {
-  CalType n;
+  int idx = 0;
+  CalType n = 3;
+  CalType max;
+  CalType PrimeStore[3] = {0, 0, 0};
 
+  std::cout << "Min in "<< std::endl;
   if (Num.In(n) < 0){
     std::cout << "invalid first number" << std::endl;
     return -1;
   }
 
-  /*
-   * 수는 두개가 존재한다.
-   * n = 입력값
-   * div_n = 나누는값
-   * div_base_n = 나누는값을 입력값에서 구할때 쓰는 나누는값
-   * 1. 입력값이 짝수일 경우 홀수부터 시작한다.
-   * 2. 나누는값은 입력값을 홀수로 나눈 값을 의미한다.
-   * 3. 이때 나누는값을 구하는 홀수는 
-   * 3부터 시작하며 이후 2씩 증가하며 홀수로만 나눈다.
-   *
-   *
-   * 나누는값보다 나눌때 구하는 홀수값이 커지는 경우
-   * 소수로 인정 한다.
-   * div_n으로 나눔으로써 div_base_n으로 나눈것과 같은 효과가 있기
-   * 때문이다. 이경우 나눌수있는 모든 수로 나눴다고 판단된다.
-   *
-   * 입력값은 -2 씩빼며 홀수만을 계산한다.
-   *
-   * 걍 대충생각해서 짜봣더니 어찌되긴되는데 느릴듯..
-   *
-   * 소수 결과 검산
-   * https://www.alpertron.com.ar/ECM.HTM
-   */
-  if ((n&1) == 0 && n>2){
-    n--;
-  }
-  else if (n < 1){
-    std::cout << " invalid numver." << std::endl;
+  std::cout << "Max in "<< std::endl;
+  if (Num.In(max) < 0){
+    std::cout << "invalid first number" << std::endl;
     return -1;
   }
 
-  while (n > 2){
-    CalType div_base_n = 3;
-    while (1){
-      CalType div_n = n/div_base_n;
-      if ((div_n&1) == 0)
-        div_n--;
-
-      if(div_n < div_base_n){
-        std::cout << "max prime ";
-        if (Num.Is128((__uint128_t)n) == true){
-          Num.pr_128(n);
-          std::cout << std::endl;
-        }
-        else{
-          std::cout << (uint64_t)n << std::endl;
-        }
-        return 0;
-      }
-      else if (n%div_n == 0){
-        break;
-      }
-
-      div_base_n += 2;
-    }
-    n -= 2;
+  if (max < 6){
+    std::cout << "Max Input over 6" << std::endl;
+    return -1;
   }
 
-  std::cout << "max prime 2"  << std::endl;
+  while (n <= max){
+    if (IsPrim<CalType>(n) == true){
+      for (int i=0; i<3; i++){
+        if (n == PrimeStore[i]+6){
+          std::cout << "Sexy Prim(" << ++idx << ") ";
+          Num.Show((__uint128_t)n);
+          std::cout << " ";
+          Num.Show((__uint128_t)PrimeStore[i]);
+          std::cout << std::endl;
+        }
+      }
+      PrimeStore[2] = PrimeStore[1];
+      PrimeStore[1] = PrimeStore[0];
+      PrimeStore[0] = n;
+    }
+
+    n += 2;
+  }
+
   return 0;
 }
