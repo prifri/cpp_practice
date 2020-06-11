@@ -4,6 +4,7 @@
 # example : ../build.sh NsTest.cpp Utils.cpp
 # example : ../build.sh NsTest Utils.cpp
 
+LIB="-lpthread"
 help() {
 	echo "splt [OPTIONS] FILE"
 	echo "    -v [num]   std version"
@@ -60,7 +61,8 @@ WNOPT="-Wno-ignored-qualifiers"
 
 g++  -g -o $NAME $NAME.$EXTEN $ADD_FILES \
 	$WOPT $WNOPT $RTTI \
-	$STD 
+	$STD								\
+	$LIB
 
 if [ "$CLEAR" == "ON" ]; then
 	clear
